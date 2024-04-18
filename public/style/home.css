@@ -1,0 +1,13 @@
+.subscribe-wrapper {
+  padding-block: 1rem;
+  > form {
+    margin-inline: auto;
+    width: fit-content;
+  }
+}
+
+.carousel-wrapper {
+  padding-block: 1rem;
+  max-width: min(45rem, 95%);
+  margin: 0 auto;
+}

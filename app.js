@@ -22,7 +22,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "hbs");
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("home");
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
 app.listen(process.env.SERVER_PORT, () => {
