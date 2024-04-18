@@ -3,6 +3,8 @@ import mysql8 from "mysql8";
 import { fileURLToPath } from "url";
 import path from "path";
 import express from "express";
+import pagesRouter from "./routes/pages.js";
+import authRouter from "./routes/auth.js";
 
 const db = mysql8.createConnection({
   host: process.env.DB_HOST,
@@ -19,15 +21,12 @@ db.connect((error) => {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.set("view engine", "hbs");
 
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
-app.get("/login", (req, res) => {
-  res.render("login");
-});
+app.use("/", pagesRouter);
+app.use("/auth", authRouter);
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`Server started on port:\t${process.env.SERVER_PORT}`);

@@ -38,14 +38,14 @@
                 <a class="nav-link" href="/">Home</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
                 <a
                   class="nav-link active"
                   aria-current="page"
-                  href="/login"
-                >Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
+                  href="/register"
+                >Register</a>
               </li>
             </ul>
           </div>
@@ -53,13 +53,17 @@
       </nav>
 
       <main>
-        <h1>Lovely To See You Back Again!</h1>
+        <h1>Will You Be Joining Us? Sure Go On!</h1>
         <div class="login-wrapper">
           <div class="login-section-1">
             <img src="/images/ireland-map.webp" alt="map of Ireland" />
           </div>
           <div class="login-section-2">
-            <form action="/auth/login" method="post">
+            <form action="/auth/register" method="post">
+              <label for="name">name</label>
+              <br />
+              <input type="text" name="name" id="name" required />
+              <br />
               <label for="email">email</label>
               <br />
               <input
@@ -74,6 +78,18 @@
               <br />
               <input type="password" name="password" id="password" requred />
               <br />
+              <label for="confirm-password">confirm password</label>
+              <br />
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirm-password"
+                requred
+              />
+              <br />
+              {{#if message}}
+                <div class="alert alert-danger mt-4">{{message}}</div>
+              {{/if}}
               <input type="submit" value="Login" />
             </form>
           </div>
