@@ -1,13 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
+
+html {
+  --green-1: rgb(160, 212, 150);
+  --green-2: rgb(95, 126, 95);
+}
 body {
-  background-image: linear-gradient(135deg, rgb(50, 216, 58), rgb(31, 163, 31));
+  background-image: linear-gradient(135deg, var(--green-1), var(--green-2));
+}
+
+.body-wrapper {
+  font-family: "Irish Grover", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.5rem;
+  margin: 0 auto;
+  max-width: 60rem;
 }
 
 main {
   min-height: 100lvh;
+  padding: 2rem;
 }
 
 .site-logo {
-  background-image: url(images/international-2423859_640.png);
+  background-image: url("images/ireland-flag.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left;
@@ -21,11 +37,14 @@ main {
   }
 }
 
-#main-carousel {
-  max-height: 15rem;
+.carousel-wrapper {
+  padding-block: 1rem;
+  max-width: min(45rem, 95%);
+  margin: 0 auto;
 }
 
 footer {
+  background-color: var(--green-1);
   margin-top: 10rem;
   margin-right: 1rem;
   text-align: end;
