@@ -1,0 +1,22 @@
+{
+  "name": "greetings-from-ireland",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Conor Dowdall",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "hbs": "^4.2.0",
+    "mysql8": "^2.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
