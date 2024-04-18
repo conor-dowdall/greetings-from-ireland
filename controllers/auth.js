@@ -14,16 +14,45 @@ const register = (req, res) => {
   db.query(
     "SELECT email FROM users WHERE email = ?",
     [email],
-    (error, results) => {
-      if (error) console.error(error);
+    async (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.render("register", {
+          message: "oh Jaysus, something went wrong - could you try again?",
+        });
+      }
 
       if (results.length > 0)
-        return res.render("register", { message: "email already in use" });
+        return res.render("register", {
+          name,
+          message:
+            "oh Jaysus, that email is already in use - would you have another one?",
+        });
       else if (password !== confirmPassword)
-        return res.render("register", { message: "passwords don't match" });
+        return res.render("register", {
+          name,
+          email,
+          message: "ye eejit - those passwords don't match",
+        });
+
+      const hash = await bcrypt.hash(password, 8);
+      db.query(
+        "INSERT INTO users SET ?",
+        { name, email, password: hash },
+        (error, results) => {
+          if (error) {
+            console.error(error);
+            return res.render("register", {
+              message: "oh Jaysus, something went wrong - could you try again?",
+            });
+          } else
+            return res.render("register", {
+              message: "grand stuff - you're registered!",
+            });
+        }
+      );
     }
   );
-  res.send("wahoo");
 };
 
 export { register };

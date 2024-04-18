@@ -62,21 +62,42 @@
             <form action="/auth/register" method="post">
               <label for="name">name</label>
               <br />
-              <input type="text" name="name" id="name" required />
+              {{#if name}}
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={{name}}
+                  required
+                />
+              {{else}}
+                <input type="text" name="name" id="name" required />
+              {{/if}}
               <br />
               <label for="email">email</label>
               <br />
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="enter@your.email"
-                required
-              />
+              {{#if email}}
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="enter@your.email"
+                  value={{email}}
+                  required
+                />
+              {{else}}
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="enter@your.email"
+                  required
+                />
+              {{/if}}
               <br />
               <label for="password">password</label>
               <br />
-              <input type="password" name="password" id="password" requred />
+              <input type="password" name="password" id="password" required />
               <br />
               <label for="confirm-password">confirm password</label>
               <br />
@@ -84,11 +105,11 @@
                 type="password"
                 name="confirmPassword"
                 id="confirm-password"
-                requred
+                required
               />
               <br />
               {{#if message}}
-                <div class="alert alert-danger mt-4">{{message}}</div>
+                <div>{{message}}</div>
               {{/if}}
               <input type="submit" value="Login" />
             </form>
