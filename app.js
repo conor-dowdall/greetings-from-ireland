@@ -18,12 +18,15 @@ db.connect((error) => {
   else console.log(`Connected to database:\t${process.env.DB_NAME}`);
 });
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+
+app.set("view engine", "hbs");
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.set("view engine", "hbs");
 
 app.use("/", pagesRouter);
 app.use("/auth", authRouter);

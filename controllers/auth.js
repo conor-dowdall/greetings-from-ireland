@@ -9,6 +9,18 @@ const db = mysql8.createConnection({
   database: process.env.DB_NAME,
 });
 
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!password || !email) {
+      return res.status(400).render("login");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const register = (req, res) => {
   const { name, email, password, confirmPassword } = req.body;
   db.query(
@@ -35,10 +47,10 @@ const register = (req, res) => {
           message: "ye eejit - those passwords don't match",
         });
 
-      const hash = await bcrypt.hash(password, 8);
+      const saltyHash = await bcrypt.hash(password, 8);
       db.query(
         "INSERT INTO users SET ?",
-        { name, email, password: hash },
+        { name, email, password: saltyHash },
         (error, results) => {
           if (error) {
             console.error(error);
@@ -55,4 +67,4 @@ const register = (req, res) => {
   );
 };
 
-export { register };
+export { login, register };
