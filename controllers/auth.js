@@ -2,7 +2,6 @@ import mysql8 from "mysql8";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { promisify } from "util";
-import { log } from "console";
 
 const db = mysql8.createConnection({
   host: process.env.DB_HOST,
@@ -10,6 +9,14 @@ const db = mysql8.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 });
+
+const logout = async (req, res, next) => {
+  res.cookie("greetings_token", "logout", {
+    expires: new Date(Date.now() + 2000),
+    httpOnly: true,
+  });
+  res.status(200).redirect("/");
+};
 
 const isLoggedIn = async (req, res, next) => {
   if (req.cookies.greetings_token) {
@@ -126,4 +133,4 @@ const register = (req, res) => {
   );
 };
 
-export { isLoggedIn, login, register };
+export { logout, isLoggedIn, login, register };
