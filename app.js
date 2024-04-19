@@ -1,8 +1,9 @@
 import "dotenv/config";
 import mysql8 from "mysql8";
-import { fileURLToPath } from "url";
-import path from "path";
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import cookieParser from "cookie-parser";
 import pagesRouter from "./routes/pages.js";
 import authRouter from "./routes/auth.js";
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/", pagesRouter);
 app.use("/auth", authRouter);

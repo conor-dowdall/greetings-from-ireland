@@ -13,9 +13,43 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!password || !email) {
-      return res.status(400).render("login");
-    }
+    if (password === "" || email === "")
+      return res.status(400).render("login", { message: "c'mon ye eejit" });
+
+    db.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email],
+      async (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.render("login", {
+            message: "oh Jaysus, something went wrong - could you try again?",
+          });
+        }
+
+        if (
+          results?.length &&
+          (await bcrypt.compare(password, results[0].password))
+        ) {
+          const userId = results[0].user_id;
+          const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN,
+          });
+          const cookieOptions = {
+            expires: new Date(
+              Date.now() + Number(process.env.JWT_COOKIE_EXPIRES)
+            ),
+            httpOnly: true,
+          };
+
+          res.cookie("greetings_token", token, cookieOptions);
+          res.status(200).redirect("/");
+        } else
+          return res
+            .status(401)
+            .render("login", { message: "somethin's wrong there now" });
+      }
+    );
   } catch (error) {
     console.error(error);
   }
@@ -34,7 +68,7 @@ const register = (req, res) => {
         });
       }
 
-      if (results.length > 0)
+      if (results?.length)
         return res.render("register", {
           name,
           message:

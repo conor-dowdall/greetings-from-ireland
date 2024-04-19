@@ -72,8 +72,13 @@
               <br />
               <label for="password">password</label>
               <br />
-              <input type="password" name="password" id="password" requred />
+              <input type="password" name="password" id="password" required />
               <br />
+              {{#if message}}
+                <p class="irish-info irish-alert">{{message}}</p>
+              {{else}}
+                <p class="irish-info irish-ok">oh, we can't wait te see ye</p>
+              {{/if}}
               <input type="submit" value="Login" />
             </form>
           </div>

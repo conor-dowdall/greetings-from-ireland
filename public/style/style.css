@@ -48,11 +48,19 @@ input {
   border-radius: 100vw;
 }
 
-input[type="email"]:invalid {
+p.irish-info {
+  width: fit-content;
+  padding: 0.4rem 1.5rem;
+  border-radius: 100vw;
+}
+
+input[type="email"]:invalid,
+p.irish-alert {
   outline: 2px solid var(--orange-1);
 }
 
-input[type="email"]:valid {
+input[type="email"]:valid,
+p.irish-ok {
   outline: 2px solid var(--green-1);
 }
 
