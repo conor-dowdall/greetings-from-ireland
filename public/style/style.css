@@ -74,3 +74,39 @@ footer {
   padding: 1rem 2rem;
   text-align: end;
 }
+
+/* for the home page */
+.subscribe-wrapper {
+  padding-block: 1rem;
+  > form {
+    margin-inline: auto;
+    width: fit-content;
+  }
+}
+
+.carousel-wrapper {
+  padding-block: 1rem;
+  max-width: min(45rem, 95%);
+  margin: 0 auto;
+}
+
+/* for the login and register pages */
+.login-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.login-section-1 {
+  > img {
+    width: 100%;
+  }
+}
+
+.login-section-2 {
+  padding-top: 1rem;
+}
+
+input {
+  margin-bottom: 1.5rem !important;
+}
