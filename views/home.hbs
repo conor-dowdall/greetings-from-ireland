@@ -37,19 +37,32 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
-              </li>
+              {{#if user}}
+                <li class="nav-item">
+                  <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/logout">Logout</a>
+                </li>
+              {{else}}
+                <li class="nav-item">
+                  <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/register">Register</a>
+                </li>
+              {{/if}}
             </ul>
           </div>
         </div>
       </nav>
 
       <main>
-        <h1>Ah, Hello There!</h1>
+        {{#if user.name}}
+          <h1>Ah, Hello There {{user.name}}!</h1>
+        {{else}}
+          <h1>Ah, Hello There!</h1>
+        {{/if}}
         <p class="system-font">Be Jaysus, you're very welcome to
           <strong>Greetings from Ireland</strong>, where you can buy an
           authentic Irish greeting from an authentic Irish person.</p>
@@ -179,23 +192,26 @@
           href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8536140"
         >Pixabay</a>
       </div>
-      Image by
-      <a
-        href="https://pixabay.com/users/iqsphotography-19058093/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8106018"
-      >Jim</a>
-      from
-      <a
-        href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8106018"
-      >Pixabay</a>
-
-      Image by
-      <a
-        href="https://pixabay.com/users/borgmattisson-5824533/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6360406"
-      >Christoffer Borg Mattisson</a>
-      from
-      <a
-        href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6360406"
-      >Pixabay</a>
+      <div>
+        Image by
+        <a
+          href="https://pixabay.com/users/iqsphotography-19058093/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8106018"
+        >Jim</a>
+        from
+        <a
+          href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8106018"
+        >Pixabay</a>
+      </div>
+      <div>
+        Image by
+        <a
+          href="https://pixabay.com/users/borgmattisson-5824533/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6360406"
+        >Christoffer Borg Mattisson</a>
+        from
+        <a
+          href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6360406"
+        >Pixabay</a>
+      </div>
     </footer>
 
     <script

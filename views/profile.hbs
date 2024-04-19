@@ -4,7 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Greetings From Ireland | Home</title>
     <link rel="stylesheet" href="/style/style.css" />
-    <script type="module" src="/js/home.mjs"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -35,13 +34,17 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <a class="nav-link" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/profile"
+                >Profile</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
+                <a class="nav-link" href="/auth/logout">Logout</a>
               </li>
             </ul>
           </div>
@@ -49,20 +52,9 @@
       </nav>
 
       <main>
-        <h1>Ah, Hello There!</h1>
-        <p class="system-font">Be Jaysus, you're very welcome to
-          <strong>Greetings from Ireland</strong>, where you can buy an
-          authentic Irish greeting from an authentic Irish person.</p>
-        <p class="system-font">May the luck of the Irish be with you on this
-          blessed day!</p>
-        <h2>Sure maybe you'd subscribe to our newsletter?</h2>
-
-        <div class="subscribe-wrapper">
-          <form>
-            <input type="email" required placeholder="subscribe@me.now" />
-            <input type="submit" value="Subscribe" />
-          </form>
-        </div>
+        <h1>Ah, Hello There {{user.name}}!</h1>
+        <h2>Your Profile</h2>
+        <p class="system-font">Your profile</p>
       </main>
 
     </div>
@@ -78,53 +70,6 @@
           href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2423859"
         >Pixabay</a>
       </div>
-      <div>
-        Image by
-        <a
-          href="https://pixabay.com/users/hbieser-343207/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2701516"
-        >Herbert Bieser</a>
-        from
-        <a
-          href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2701516"
-        >Pixabay</a>
-      </div>
-      <div>
-        Image by
-        <a
-          href="https://pixabay.com/users/fshh-1451325/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2396309"
-        >Franz P. Sauerteig</a>
-        from
-        <a
-          href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2396309"
-        >Pixabay</a>
-      </div>
-      <div>
-        Image by
-        <a
-          href="https://pixabay.com/users/evilrose-5985310/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8536140"
-        >EvilRose</a>
-        from
-        <a
-          href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8536140"
-        >Pixabay</a>
-      </div>
-      Image by
-      <a
-        href="https://pixabay.com/users/iqsphotography-19058093/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8106018"
-      >Jim</a>
-      from
-      <a
-        href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=8106018"
-      >Pixabay</a>
-
-      Image by
-      <a
-        href="https://pixabay.com/users/borgmattisson-5824533/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6360406"
-      >Christoffer Borg Mattisson</a>
-      from
-      <a
-        href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6360406"
-      >Pixabay</a>
     </footer>
 
     <script

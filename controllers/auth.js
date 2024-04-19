@@ -1,6 +1,8 @@
 import mysql8 from "mysql8";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { promisify } from "util";
+import { log } from "console";
 
 const db = mysql8.createConnection({
   host: process.env.DB_HOST,
@@ -10,7 +12,29 @@ const db = mysql8.createConnection({
 });
 
 const isLoggedIn = async (req, res, next) => {
-  next();
+  if (req.cookies.greetings_token) {
+    try {
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.greetings_token,
+        process.env.JWT_SECRET
+      );
+      db.query(
+        "SELECT * FROM users WHERE user_id = ?",
+        [decoded.userId],
+        (error, results) => {
+          if (error) throw new Error(error);
+
+          if (results?.length) {
+            req.user = results[0];
+            return next();
+          } else return next();
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      return next();
+    }
+  } else next();
 };
 
 const login = async (req, res) => {
@@ -95,7 +119,7 @@ const register = (req, res) => {
             return res.render("register", {
               message: "oh Jaysus, something went wrong - could you try again?",
             });
-          } else return res.status("302").render("login", { name, email });
+          } else return res.status(302).render("login", { name, email });
         }
       );
     }
