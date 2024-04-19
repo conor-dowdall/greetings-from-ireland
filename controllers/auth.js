@@ -9,6 +9,10 @@ const db = mysql8.createConnection({
   database: process.env.DB_NAME,
 });
 
+const isLoggedIn = async (req, res, next) => {
+  next();
+};
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -43,7 +47,7 @@ const login = async (req, res) => {
           };
 
           res.cookie("greetings_token", token, cookieOptions);
-          res.status(200).redirect("/");
+          res.redirect("/profile");
         } else
           return res
             .status(401)
@@ -91,14 +95,11 @@ const register = (req, res) => {
             return res.render("register", {
               message: "oh Jaysus, something went wrong - could you try again?",
             });
-          } else
-            return res.render("register", {
-              message: "grand stuff - you're registered!",
-            });
+          } else return res.status("302").render("login", { name, email });
         }
       );
     }
   );
 };
 
-export { login, register };
+export { isLoggedIn, login, register };

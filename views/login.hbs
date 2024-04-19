@@ -52,7 +52,11 @@
       </nav>
 
       <main>
-        <h1>Lovely To See You Back Again!</h1>
+        {{#if name}}
+          <h1>Would You Like To Login, {{name}}?</h1>
+        {{else}}
+          <h1>Lovely To See You Back Again!</h1>
+        {{/if}}
         <div class="login-wrapper">
           <div class="login-section-1">
             <img src="/images/ireland-map.webp" alt="map of Ireland" />
@@ -61,13 +65,25 @@
             <form action="/auth/login" method="post">
               <label for="email">email</label>
               <br />
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="enter@your.email"
-                required
-              />
+              {{#if email}}
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="enter@your.email"
+                  value={{email}}
+                  required
+                />
+              {{else}}
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="enter@your.email"
+                  required
+                />
+              {{/if}}
+
               <br />
               <label for="password">password</label>
               <br />

@@ -1,4 +1,5 @@
 import express from "express";
+import { isLoggedIn } from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -12,6 +13,10 @@ router.get("/login", (req, res) => {
 
 router.get("/register", (req, res) => {
   res.render("register");
+});
+
+router.get("/profile", isLoggedIn, (req, res) => {
+  res.render("profile");
 });
 
 export default router;
