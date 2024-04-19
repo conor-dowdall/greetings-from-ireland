@@ -2,6 +2,7 @@ import "dotenv/config";
 import mysql8 from "mysql8";
 import express from "express";
 import path from "path";
+import serveFavicon from "serve-favicon";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import pagesRouter from "./routes/pages.js";
@@ -24,6 +25,7 @@ const app = express();
 app.set("view engine", "hbs");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(serveFavicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.urlencoded({ extended: false }));
