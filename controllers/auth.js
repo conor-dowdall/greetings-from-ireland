@@ -10,6 +10,23 @@ const db = mysql8.createConnection({
   database: process.env.DB_NAME,
 });
 
+const getProducts = (req, res, next) => {
+  if (req.user) {
+    try {
+      db.query("SELECT * FROM products", (error, results) => {
+        if (error) throw new Error(error);
+        if (results?.length) {
+          req.products = results;
+          return next();
+        } else return next();
+      });
+    } catch (error) {
+      console.error(error);
+      return next();
+    }
+  } else next();
+};
+
 const logout = async (req, res, next) => {
   res.cookie("greetings_token", "logout", {
     expires: new Date(Date.now()),
@@ -30,7 +47,6 @@ const isLoggedIn = async (req, res, next) => {
         [decoded.userId],
         (error, results) => {
           if (error) throw new Error(error);
-
           if (results?.length) {
             req.user = results[0];
             return next();
@@ -133,4 +149,4 @@ const register = (req, res) => {
   );
 };
 
-export { logout, isLoggedIn, login, register };
+export { getProducts, logout, isLoggedIn, login, register };

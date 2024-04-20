@@ -1,5 +1,5 @@
 import express from "express";
-import { isLoggedIn } from "../controllers/auth.js";
+import { isLoggedIn, getProducts } from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -18,8 +18,9 @@ router.get("/register", isLoggedIn, (req, res) => {
   else res.render("register");
 });
 
-router.get("/profile", isLoggedIn, (req, res) => {
-  if (req.user) res.render("profile", { user: req.user });
+router.get("/profile", isLoggedIn, getProducts, (req, res) => {
+  if (req.user)
+    res.render("profile", { user: req.user, products: req.products });
   else res.redirect("/login");
 });
 

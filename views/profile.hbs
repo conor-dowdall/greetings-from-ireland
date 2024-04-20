@@ -53,8 +53,34 @@
 
       <main>
         <h1>Ah, Hello There {{user.name}}!</h1>
-        <h2>Your Profile</h2>
-        <p class="system-font">Your profile</p>
+        {{#if products}}
+          <h2>Would you like to buy an authentic Irish greeting?</h2>
+          <p class="system-font">Sure have a look at our list and see if
+            anything takes your fancy.</p>
+
+          <div class="filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="yours">Yours</button>
+            <button class="filter-btn" data-filter="basket">Basket</button>
+          </div>
+
+          {{#each products}}
+            <ul class="greetings-list">
+              <li>
+                <h3>{{this.name}}</h3>
+                <p class="system-font">{{this.description}}</p>
+                <div class="buy">
+                  <p>€{{this.price}}</p>
+                  <button>Buy</button>
+                </div>
+              </li>
+            </ul>
+          {{/each}}
+
+        {{else}}
+          <h2>There must've been a database error!</h2>
+          <p class="system-font">Maybe try reloading?</p>
+        {{/if}}
       </main>
 
     </div>
