@@ -61,18 +61,25 @@
 
           <div class="filter">
             <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="yours">Yours</button>
-            <button class="filter-btn" data-filter="basket">Basket</button>
+            <button class="filter-btn" data-filter="purchased">Purchased</button>
           </div>
 
           {{#each products}}
             <ul class="greetings-list">
-              <li class="greeting" data-category="basket">
+              {{#if this.user_id}}
+              <li class="greeting" data-category="purchased">
+              {{else}}
+              <li class="greeting">
+              {{/if}}
                 <h3>{{this.name}}</h3>
                 <p class="system-font">{{this.description}}</p>
                 <div class="buy">
                   <p>€{{this.price}}</p>
-                  <button data-buy data-name={{this.name}}>Buy</button>
+                  {{#if this.user_id}}
+                    <button data-play>Play</button>
+                  {{else}}
+                    <button data-purchase>Purchase</button>
+                  {{/if}}
                 </div>
               </li>
             </ul>

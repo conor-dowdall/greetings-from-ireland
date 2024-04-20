@@ -1,10 +1,10 @@
-document.querySelectorAll("[data-buy]").forEach((buyButton) => {
+document.querySelectorAll("[data-purchase]").forEach((buyButton) => {
   buyButton.addEventListener("click", (e) => {
-    console.log("Click " + e.target.dataset.name);
+    console.log("Purchase " + e.target.dataset.name);
   });
 });
 
-// adapted from:
+// the following code is adapted from:
 // https://codepen.io/kevinpowell/pen/GRzxybd/c5c073666a8225c2c8f2fadd4d7c049b
 
 const filterList = document.querySelector(".filter");
@@ -19,15 +19,15 @@ greetings.forEach((greeting) => {
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
-    let category = e.target.getAttribute("data-filter");
+    let filter = e.target.getAttribute("data-filter");
 
     if (!document.startViewTransition) {
       updateActiveButton(e.target);
-      filterGreetings(category);
+      filterGreetings(filter);
     } else {
       document.startViewTransition(() => {
         updateActiveButton(e.target);
-        filterGreetings(category);
+        filterGreetings(filter);
       });
     }
   });
@@ -41,10 +41,10 @@ function updateActiveButton(newButton) {
 function filterGreetings(filter) {
   greetings.forEach((greeting) => {
     // get each greetings category
-    let eventCategory = greeting.getAttribute("data-category");
+    let category = greeting.getAttribute("data-category");
 
     // check if that category matches with the filter
-    if (filter === "all" || filter === eventCategory) {
+    if (filter === "all" || filter === category) {
       greeting.removeAttribute("hidden");
     } else {
       greeting.setAttribute("hidden", "");

@@ -2,8 +2,10 @@ CREATE DATABASE IF NOT EXISTS greetings_from_ireland;
 
 USE greetings_from_ireland;
 
-DROP TABLE IF EXISTS users;
+DROP VIEW IF EXISTS products_orders;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT,
@@ -22,12 +24,16 @@ CREATE TABLE products (
     PRIMARY KEY (product_id)
 );
 
-INSERT INTO users 
-VALUES
-(NULL, 'a', 'a@a', '$2a$08$gn6U57UDVnN2DuVPPCZ9m.9BQjFjoyOK5tAtAX/Cq61dzHlLpQx.S');
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    PRIMARY KEY (order_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
 
-INSERT INTO products 
-VALUES 
-(NULL, 'Alright', 'A simple Irish greeting, saying "Alright?"', 0, 'alright.mp3'),
-(NULL, 'Howaya', 'A simple Irish greeting, saying "How are you?"', 0.5, 'howaya.mp3'),
-(NULL, 'Craic', 'A simple Irish greeting, saying "What''s the craic?"', 1.0, 'craic.mp3');
+CREATE VIEW products_orders AS
+SELECT products.*, orders.user_id
+FROM products
+    LEFT JOIN orders USING (product_id);

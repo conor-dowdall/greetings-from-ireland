@@ -13,13 +13,17 @@ const db = mysql8.createConnection({
 const getProducts = (req, res, next) => {
   if (req.user) {
     try {
-      db.query("SELECT * FROM products", (error, results) => {
-        if (error) throw new Error(error);
-        if (results?.length) {
-          req.products = results;
-          return next();
-        } else return next();
-      });
+      db.query(
+        "SELECT * FROM products_orders WHERE (user_id IS NULL OR user_id=?)",
+        [req.user.user_id],
+        (error, results) => {
+          if (error) throw new Error(error);
+          if (results?.length) {
+            req.products = results;
+            return next();
+          } else return next();
+        }
+      );
     } catch (error) {
       console.error(error);
       return next();
