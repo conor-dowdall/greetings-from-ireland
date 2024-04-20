@@ -12,7 +12,7 @@ const db = mysql8.createConnection({
 
 const logout = async (req, res, next) => {
   res.cookie("greetings_token", "logout", {
-    expires: new Date(Date.now() + 2000),
+    expires: new Date(Date.now()),
     httpOnly: true,
   });
   res.status(200).redirect("/");
