@@ -3,10 +3,17 @@
 html {
   --green-1: rgb(160, 212, 150);
   --green-2: rgb(95, 126, 95);
+  --white-1: rgb(255, 255, 255);
   --orange-1: rgb(255, 115, 0);
 }
 body {
   background-image: linear-gradient(135deg, var(--green-1), var(--green-2));
+  background-image: linear-gradient(
+    135deg,
+    var(--green-1),
+    var(--white-1),
+    var(--orange-1)
+  );
   min-height: 100lvh;
 }
 
@@ -126,9 +133,35 @@ button {
 
 div.filter {
   margin-top: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border: 0;
+  padding: 0;
+}
+
+.filter-btn {
+  cursor: pointer;
+  text-transform: uppercase;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.25rem 1rem;
+}
+
+.filter-btn:hover,
+.filter-btn:focus {
+  background-color: #ccc;
+}
+
+.filter-btn.active {
+  pointer-events: none;
+  background: black;
+  color: white;
+  box-shadow: 0 0 0.5rem rgb(0 0 0 / 0.2);
 }
 
 ul.greetings-list {
+  min-height: 10rem;
   margin-top: 2rem;
   list-style-image: url("/images/chat.svg");
   & .buy {
