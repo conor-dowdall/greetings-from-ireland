@@ -24,8 +24,14 @@ body {
 }
 
 main {
-  min-height: 100lvh;
+  min-height: 20lvh;
   padding: 2rem;
+}
+
+@media screen and (width < 45rem) {
+  main {
+    padding-inline: 0.5rem;
+  }
 }
 
 .site-logo {
@@ -95,6 +101,7 @@ footer {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin-top: 2rem;
 }
 
 .login-section-1 {
@@ -104,7 +111,7 @@ footer {
 }
 
 .login-section-2 {
-  padding-top: 1rem;
+  padding-top: 2rem;
 }
 
 input {
