@@ -65,8 +65,9 @@
 
         {{#if products}}
 
-          {{#each products}}
             <ul class="greetings-list">
+
+            {{#each products}}
               {{#if this.user_id}}
               <li class="greeting" data-category="purchased">
               {{else}}
@@ -87,8 +88,9 @@
                   {{/if}}
                 </div>
               </li>
+            {{/each}}
+            
             </ul>
-          {{/each}}
 
         {{else}}
           <h2>There must've been a database error!</h2>
