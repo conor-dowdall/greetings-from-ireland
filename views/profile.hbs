@@ -54,7 +54,6 @@
 
       <main>
         <h1>Ah, Hello There {{user.name}}!</h1>
-        {{#if products}}
           <h2>Would you like to buy an authentic Irish greeting?</h2>
           <p class="system-font">Sure have a look at our list and see if
             anything takes your fancy.</p>
@@ -63,6 +62,8 @@
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="purchased">Purchased</button>
           </div>
+
+        {{#if products}}
 
           {{#each products}}
             <ul class="greetings-list">
@@ -74,9 +75,10 @@
                 <h3>{{this.name}}</h3>
                 <p class="system-font">{{this.description}}</p>
                 <div class="buy">
-                  <p>€{{this.price}}</p>
+                  <p>€{{toCurrency this.price}}</p>
                   {{#if this.user_id}}
-                    <button data-play>Play</button>
+                    <audio data-audio-name="{{this.name}}" src="/audio/{{this.filename}}"></audio>
+                    <button data-play data-audio-name="{{this.name}}">Play</button>
                   {{else}}
                     <button data-purchase>Purchase</button>
                   {{/if}}
@@ -111,6 +113,7 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    
 
   </body>
 </html>

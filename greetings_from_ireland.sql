@@ -19,8 +19,8 @@ CREATE TABLE products (
     product_id INT AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(255) NOT NULL,
-    price DECIMAL(5.2) NOT NULL,
-    filename VARCHAR(50) NOT NULL,
+    price DECIMAL(5,2) NOT NULL,
+    filename VARCHAR(20) NOT NULL,
     PRIMARY KEY (product_id)
 );
 
@@ -37,3 +37,9 @@ CREATE VIEW products_orders AS
 SELECT products.*, orders.user_id
 FROM products
     LEFT JOIN orders USING (product_id);
+
+INSERT INTO products 
+VALUES 
+(NULL, 'Alright', 'A simple Irish greeting, saying "Alright?"', 0, 'alright.mp3'),
+(NULL, 'Howaya', 'A simple Irish greeting, saying "How are you?"', 0.5, 'howaya.mp3'),
+(NULL, 'Craic', 'A simple Irish greeting, saying "What''s the craic?"', 1.0, 'craic.mp3');

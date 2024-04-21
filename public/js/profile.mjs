@@ -1,6 +1,15 @@
-document.querySelectorAll("[data-purchase]").forEach((buyButton) => {
+const playButtons = document.querySelectorAll("button[data-play]");
+playButtons.forEach((playButton) => {
+  const audio = document.querySelector(
+    `audio[data-audio-name="${playButton.dataset.audioName}"]`
+  );
+  playButton.addEventListener("click", () => audio.play());
+});
+
+const puchaseButtons = document.querySelectorAll("button[data-purchase]");
+puchaseButtons.forEach((buyButton) => {
   buyButton.addEventListener("click", (e) => {
-    console.log("Purchase " + e.target.dataset.name);
+    console.log("Purchase " + e.target.dataset.audioName);
   });
 });
 
