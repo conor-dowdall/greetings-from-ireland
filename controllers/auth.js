@@ -10,18 +10,41 @@ const db = mysql8.createConnection({
   database: process.env.DB_NAME,
 });
 
+const buyProduct = (req, res, next) => {
+  if (req.user) {
+    try {
+      const userId = req.user.user_id;
+      const productId = Number(req.body.productId);
+      db.query(
+        "INSERT INTO orders VALUES (NULL, ?, ?)",
+        [userId, productId],
+        (error, results) => {
+          if (error) throw new Error(error);
+          next();
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      return next();
+    }
+  } else next();
+};
+
 const getProducts = (req, res, next) => {
   if (req.user) {
     try {
       db.query(
-        "SELECT * FROM products_orders WHERE (user_id IS NULL OR user_id=?)",
+        "SELECT products.*, orders.user_id FROM products LEFT JOIN orders ON (orders.product_id=products.product_id AND orders.user_id=?)",
         [req.user.user_id],
         (error, results) => {
           if (error) throw new Error(error);
           if (results?.length) {
             req.products = results;
             return next();
-          } else return next();
+          } else {
+            console.error("empty database products query");
+            next();
+          }
         }
       );
     } catch (error) {
@@ -153,4 +176,4 @@ const register = (req, res) => {
   );
 };
 
-export { getProducts, logout, isLoggedIn, login, register };
+export { buyProduct, getProducts, logout, isLoggedIn, login, register };

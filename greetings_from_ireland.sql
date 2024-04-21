@@ -33,11 +33,6 @@ CREATE TABLE orders (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-CREATE VIEW products_orders AS
-SELECT products.*, orders.user_id
-FROM products
-    LEFT JOIN orders USING (product_id);
-
 INSERT INTO products 
 VALUES 
 (NULL, 'Alright', 'A simple Irish greeting, saying "Alright?"', 0, 'alright.mp3'),

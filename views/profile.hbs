@@ -80,7 +80,10 @@
                     <audio data-audio-name="{{this.name}}" src="/audio/{{this.filename}}"></audio>
                     <button data-play data-audio-name="{{this.name}}">Play</button>
                   {{else}}
-                    <button data-purchase>Purchase</button>
+                    <form action="/profile" method="post">
+                      <input style="display: none;" type="text" name="productId" value="{{this.product_id}}">
+                      <button type="submit">Purchase</button>
+                    </form>
                   {{/if}}
                 </div>
               </li>

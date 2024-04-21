@@ -1,5 +1,5 @@
 import express from "express";
-import { isLoggedIn, getProducts } from "../controllers/auth.js";
+import { isLoggedIn, getProducts, buyProduct } from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -19,6 +19,12 @@ router.get("/register", isLoggedIn, (req, res) => {
 });
 
 router.get("/profile", isLoggedIn, getProducts, (req, res) => {
+  if (req.user)
+    res.render("profile", { user: req.user, products: req.products });
+  else res.redirect("/login");
+});
+
+router.post("/profile", isLoggedIn, buyProduct, getProducts, (req, res) => {
   if (req.user)
     res.render("profile", { user: req.user, products: req.products });
   else res.redirect("/login");

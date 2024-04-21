@@ -6,13 +6,6 @@ playButtons.forEach((playButton) => {
   playButton.addEventListener("click", () => audio.play());
 });
 
-const puchaseButtons = document.querySelectorAll("button[data-purchase]");
-puchaseButtons.forEach((buyButton) => {
-  buyButton.addEventListener("click", (e) => {
-    console.log("Purchase " + e.target.dataset.audioName);
-  });
-});
-
 // the following code is adapted from:
 // https://codepen.io/kevinpowell/pen/GRzxybd/c5c073666a8225c2c8f2fadd4d7c049b
 
