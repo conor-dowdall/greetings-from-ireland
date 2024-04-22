@@ -14,10 +14,10 @@ body {
     var(--white-1),
     var(--orange-1)
   );
-  min-height: 100lvh;
 }
 
 .body-wrapper {
+  min-height: 100lvh;
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
   font-style: normal;
