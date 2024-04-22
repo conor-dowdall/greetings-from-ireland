@@ -1,3 +1,5 @@
+// add event listeners to any play buttons to allow its corresponding
+// audio element to play
 const playButtons = document.querySelectorAll("button[data-play]");
 playButtons.forEach((playButton) => {
   const audio = document.querySelector(
@@ -15,18 +17,23 @@ const greetings = document.querySelectorAll(".greeting");
 
 let greetingsIndex = 0;
 
+// this is for fancy view transitions, if they're supported
 greetings.forEach((greeting) => {
   greeting.style.viewTransitionName = `greeting-${++greetingsIndex}`;
 });
 
+// update the greetings list when a filter is clicked
 filterButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
     let filter = e.target.getAttribute("data-filter");
 
+    // add the active class to the newly selected button
+    // and apply the new filter to the greetings list
     if (!document.startViewTransition) {
       updateActiveButton(e.target);
       filterGreetings(filter);
     } else {
+      // do the fancy view transition, if it is supported
       document.startViewTransition(() => {
         updateActiveButton(e.target);
         filterGreetings(filter);
@@ -35,17 +42,20 @@ filterButtons.forEach((button) => {
   });
 });
 
+// add the active class to the newly selected button
 function updateActiveButton(newButton) {
   filterList.querySelector(".active").classList.remove("active");
   newButton.classList.add("active");
 }
 
+// apply a new filter to the greetings list
 function filterGreetings(filter) {
   greetings.forEach((greeting) => {
     // get each greetings category
     let category = greeting.getAttribute("data-category");
 
     // check if that category matches with the filter
+    // and hide or unhide that greeting
     if (filter === "all" || filter === category) {
       greeting.removeAttribute("hidden");
     } else {
