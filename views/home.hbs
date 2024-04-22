@@ -81,8 +81,13 @@
         <h2>Sure maybe you'd subscribe to our newsletter?</h2>
 
         <div class="subscribe-wrapper">
-          <form>
-            <input type="email" required placeholder="subscribe@me.now" />
+          <form action="/subscribe" method="post">
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="subscribe@me.now"
+            />
             <input type="submit" value="Subscribe" />
           </form>
         </div>

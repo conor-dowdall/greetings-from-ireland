@@ -1,5 +1,10 @@
 import express from "express";
-import { isLoggedIn, getProducts, buyProduct } from "../controllers/auth.js";
+import {
+  subscribeEmail,
+  isLoggedIn,
+  getProducts,
+  buyProduct,
+} from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -7,6 +12,8 @@ router.get("/", isLoggedIn, (req, res) => {
   if (req.user) res.render("home", { user: req.user });
   else res.render("home");
 });
+
+router.post("/subscribe", subscribeEmail);
 
 router.get("/login", isLoggedIn, (req, res) => {
   if (req.user) res.render("profile", { user: req.user });

@@ -166,7 +166,7 @@ const register = (req, res) => {
         (error, results) => {
           if (error) {
             console.error(error);
-            return res.render("register", {
+            return res.status(500).render("register", {
               message: "oh Jaysus, something went wrong - could you try again?",
             });
           } else return res.status(302).render("login", { name, email });
@@ -176,4 +176,46 @@ const register = (req, res) => {
   );
 };
 
-export { buyProduct, getProducts, logout, isLoggedIn, login, register };
+const subscribeEmail = (req, res) => {
+  const email = req.body.email;
+  db.query(
+    "SELECT email FROM subscribers WHERE email = ?",
+    [email],
+    (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).render("subscribe");
+      }
+
+      if (results?.length)
+        return res.render("subscribe", {
+          message: "That email is already subscribed!",
+        });
+      else {
+        db.query(
+          "INSERT INTO subscribers VALUES (NULL, ?)",
+          [email],
+          (error, results) => {
+            if (error) {
+              console.error(error);
+              return res.status(500).render("subscribe");
+            } else
+              return res.render("subscribe", {
+                email,
+              });
+          }
+        );
+      }
+    }
+  );
+};
+
+export {
+  buyProduct,
+  getProducts,
+  logout,
+  isLoggedIn,
+  login,
+  register,
+  subscribeEmail,
+};

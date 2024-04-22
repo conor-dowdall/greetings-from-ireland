@@ -2,9 +2,9 @@ CREATE DATABASE IF NOT EXISTS greetings_from_ireland;
 
 USE greetings_from_ireland;
 
-DROP VIEW IF EXISTS products_orders;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS subscribers;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -13,6 +13,12 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_id)
+);
+
+CREATE table subscribers (
+    subscriber_id INT AUTO_INCREMENT,
+    email VARCHAR(50) NOT NULL,
+    PRIMARY KEY (subscriber_id)
 );
 
 CREATE TABLE products (
