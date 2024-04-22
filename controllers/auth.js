@@ -107,7 +107,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (password === "" || email === "")
-      return res.status(400).render("login", { message: "c'mon ye eejit" });
+      return res.status(401).render("login", { message: "c'mon ye eejit" });
 
     db.query(
       "SELECT * FROM users WHERE email = ?",
@@ -115,7 +115,7 @@ const login = async (req, res) => {
       async (error, results) => {
         if (error) {
           console.error(error);
-          return res.render("login", {
+          return res.status(500).render("login", {
             message: "oh Jaysus, something went wrong - could you try again?",
           });
         }
@@ -160,19 +160,19 @@ const register = (req, res) => {
     async (error, results) => {
       if (error) {
         console.error(error);
-        return res.render("register", {
+        return res.status(500).render("register", {
           message: "oh Jaysus, something went wrong - could you try again?",
         });
       }
 
       if (results?.length)
-        return res.render("register", {
+        return res.status(401).render("register", {
           name,
           message:
             "oh Jaysus, that email is already in use - would you have another one?",
         });
       else if (password !== confirmPassword)
-        return res.render("register", {
+        return res.status(401).render("register", {
           name,
           email,
           message: "ye eejit - those passwords don't match",
