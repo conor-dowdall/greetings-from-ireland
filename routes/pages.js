@@ -25,8 +25,7 @@ router.get("/profile", isLoggedIn, getProducts, (req, res) => {
 });
 
 router.post("/profile", isLoggedIn, buyProduct, getProducts, (req, res) => {
-  if (req.user)
-    res.render("profile", { user: req.user, products: req.products });
+  if (req.user) res.redirect("/profile");
   else res.redirect("/login");
 });
 
