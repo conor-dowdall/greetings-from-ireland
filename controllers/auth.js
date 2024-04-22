@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { promisify } from "util";
 
+// create a database connection
 const db = mysql8.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -10,6 +11,8 @@ const db = mysql8.createConnection({
   database: process.env.DB_NAME,
 });
 
+// when a user buys a product, add the purchase to the
+// database's orders table
 const buyProduct = (req, res, next) => {
   if (req.user) {
     try {
@@ -30,6 +33,10 @@ const buyProduct = (req, res, next) => {
   } else next();
 };
 
+// get products from the products table and add them to req
+// to be displayed in the profile page
+// use orders.user_id from the orders table to flag whether the
+// product was purchased by the current user id
 const getProducts = (req, res, next) => {
   if (req.user) {
     try {
@@ -54,6 +61,7 @@ const getProducts = (req, res, next) => {
   } else next();
 };
 
+// overwrite the cookie set in the login process
 const logout = async (req, res, next) => {
   res.cookie("greetings_token", "logout", {
     expires: new Date(Date.now()),
@@ -62,6 +70,8 @@ const logout = async (req, res, next) => {
   res.status(200).redirect("/");
 };
 
+// check if the visitor has a valid login cookie
+// and add the relevant user object to req, if they do
 const isLoggedIn = async (req, res, next) => {
   if (req.cookies.greetings_token) {
     try {
@@ -87,6 +97,11 @@ const isLoggedIn = async (req, res, next) => {
   } else next();
 };
 
+// validate a user login
+// check if the database-and-provided password hashes match
+// if so, sign a cookie and add it to res
+// then redirect to profile
+// or display login page if something went wrong
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -133,6 +148,10 @@ const login = async (req, res) => {
   }
 };
 
+// register a new user
+// make sure the email is not already registered in the database
+// make sure the two passwords provided match
+// salt and hash the password and add the new user to the users table
 const register = (req, res) => {
   const { name, email, password, confirmPassword } = req.body;
   db.query(
@@ -176,6 +195,9 @@ const register = (req, res) => {
   );
 };
 
+// subscribe to the website email service
+// insert into the subscribers table, if the email is
+// not already in there
 const subscribeEmail = (req, res) => {
   const email = req.body.email;
   db.query(
