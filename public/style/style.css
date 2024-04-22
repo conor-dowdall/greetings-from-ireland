@@ -1,11 +1,15 @@
+/* get a nice font from google */
 @import url("https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap");
 
+/* define some global vars */
 html {
   --green-1: rgb(160, 212, 150);
   --green-2: rgb(95, 126, 95);
   --white-1: rgb(255, 255, 255);
   --orange-1: rgb(255, 115, 0);
 }
+
+/* nice Irish background for body */
 body {
   background-image: linear-gradient(
     135deg,
@@ -15,32 +19,41 @@ body {
   );
 }
 
+/* use a wrapper for everything in the body
+ which uses the google font and sets up a nice
+ width and height.
+ the footer goes below this wrapper */
 .body-wrapper {
+  max-width: 60rem;
   min-height: 100lvh;
   font-family: "Irish Grover", system-ui;
   font-weight: 400;
   font-style: normal;
   font-size: 1.3rem;
   margin: 0 auto;
-  max-width: 60rem;
 }
 
+/* an easier-to-read font for text that needs to 
+be more legible */
 .system-font {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+/* a bit of padding to squash in the main a bit */
 main {
   min-height: 20lvh;
   padding: 2rem;
 }
 
+/* get rid of the squashing at smaller screen sizes */
 @media screen and (width < 45rem) {
   main {
     padding-inline: 0.5rem;
   }
 }
 
+/* make the logo pretty */
 .site-logo {
   background-image: url("../images/ireland-flag.png");
   background-size: contain;
@@ -50,12 +63,14 @@ main {
   place-items: center;
   width: auto;
   height: 4rem;
+
   & > span {
     font-weight: bold;
     padding-left: 3rem;
   }
 }
 
+/* style the hero section, which has links inside it  */
 .hero {
   margin: 2rem 1rem;
   background-image: linear-gradient(
@@ -71,6 +86,7 @@ main {
   column-gap: 7rem;
   min-height: 15rem;
   border-radius: 1rem;
+
   > a {
     text-align: center;
     height: 7rem;
@@ -86,35 +102,43 @@ main {
   }
 }
 
+/* theme all form inputs */
 input {
   padding: 0.4rem 1.5rem;
+  margin-bottom: 1.5rem !important;
   border-radius: 100vw;
 }
 
+/* theme all information boxes */
 p.irish-info {
   width: fit-content;
   padding: 0.4rem 1.5rem;
   border-radius: 100vw;
 }
 
+/* theme all invalid email and alert boxes */
 input[type="email"]:invalid,
 p.irish-alert {
   outline: 2px solid var(--orange-1);
 }
 
+/* theme all valid email and ok boxes */
 input[type="email"]:valid,
 p.irish-ok {
   outline: 2px solid var(--green-1);
 }
 
+/* theme all submit buttons */
 input[type="submit"] {
   background-color: var(--green-1);
 }
 
+/* no margin on any forms */
 form {
   margin: 0;
 }
 
+/* theme the footer for each page */
 footer {
   background-color: var(--green-1);
   margin-top: 2rem;
@@ -122,7 +146,7 @@ footer {
   text-align: end;
 }
 
-/* for the home page */
+/* a nice flex box for the subscribe area */
 .subscribe-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -131,13 +155,15 @@ footer {
   margin-block: 1.5rem;
 }
 
+/* make the carousel area look nice */
 .carousel-wrapper {
   padding-block: 1rem;
   max-width: min(45rem, 95%);
   margin: 0 auto;
 }
 
-/* for the login and register pages */
+/* theme the wrapper for the login and register pages
+   make a 2-column grid */
 .login-wrapper {
   width: 100%;
   display: grid;
@@ -145,25 +171,27 @@ footer {
   margin-top: 2rem;
 }
 
+/* make the ireland map image fit in it's grid area */
 .login-section-1 {
   > img {
     width: 100%;
   }
 }
 
+/* make the login/register form look nice
+ - it lives in the login-wrapper grid */
 .login-section-2 {
   padding-top: 2rem;
 }
 
-input {
-  margin-bottom: 1.5rem !important;
-}
-
+/* theme all buttons */
 button {
   background-color: var(--green-1);
   padding: 0.4rem 1.5rem;
 }
 
+/* theme the filter buttons area on the profile page
+   - they select "all" or "purchased" greetings */
 div.filter {
   margin-top: 3rem;
   display: flex;
@@ -173,6 +201,8 @@ div.filter {
   padding: 0;
 }
 
+/* theme the filter buttons on the profile page
+   - they select "all" or "purchased" greetings */
 .filter-btn {
   cursor: pointer;
   text-transform: uppercase;
@@ -181,11 +211,15 @@ div.filter {
   padding: 0.25rem 1rem;
 }
 
+/* theme the hover and focus and states of
+the filter buttons on the profile page */
 .filter-btn:hover,
 .filter-btn:focus {
   background-color: #ccc;
 }
 
+/* theme the active state of
+the filter buttons on the profile page */
 .filter-btn.active {
   pointer-events: none;
   background: black;
@@ -193,6 +227,7 @@ div.filter {
   box-shadow: 0 0 0.5rem rgb(0 0 0 / 0.2);
 }
 
+/* theme the greetings list on the profile page */
 ul.greetings-list {
   min-height: 10rem;
   margin-top: 2rem;
