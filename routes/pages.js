@@ -14,7 +14,7 @@ router.get("/login", isLoggedIn, (req, res) => {
 });
 
 router.get("/register", isLoggedIn, (req, res) => {
-  if (req.user) res.render("profile", { user: req.user });
+  if (req.user) res.redirect("/profile");
   else res.render("register");
 });
 
