@@ -6,8 +6,8 @@ import path from "path";
 import serveFavicon from "serve-favicon";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
-import pagesRouter from "./routes/pages.js";
-import authRouter from "./routes/auth.js";
+import pagesRouter from "./routes/pages.mjs";
+import authRouter from "./routes/auth.mjs";
 
 // create a database connection using .env file info
 const db = mysql8.createConnection({

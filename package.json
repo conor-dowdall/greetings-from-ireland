@@ -2,11 +2,11 @@
   "name": "greetings-from-ireland",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "app.mjs",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js --ignore public/"
+    "start": "node app.mjs",
+    "dev": "nodemon app.mjs --ignore public/"
   },
   "author": "Conor Dowdall",
   "license": "ISC",

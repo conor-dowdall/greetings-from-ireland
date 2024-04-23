@@ -4,7 +4,7 @@ import {
   isLoggedIn,
   getProducts,
   buyProduct,
-} from "../controllers/auth.js";
+} from "../controllers/auth.mjs";
 
 const router = express.Router();
 
