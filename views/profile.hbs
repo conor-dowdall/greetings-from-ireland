@@ -73,26 +73,28 @@
             <ul class="greetings-list">
 
             {{#each products}}
+
               {{#if this.user_id}}
-              <li class="greeting" data-category="purchased">
+                <li class="greeting" data-category="purchased">
               {{else}}
-              <li class="greeting">
+                <li class="greeting">
               {{/if}}
 
-              <h3>{{this.name}}</h3>
-              <p class="system-font">{{this.description}}</p>
-              <div class="buy">
-                  <p>€{{toCurrency this.price}}</p>
-                  {{#if this.user_id}}
-                    <audio data-audio-name="{{this.name}}" src="/audio/{{this.filename}}"></audio>
-                    <button data-play data-audio-name="{{this.name}}">Play</button>
-                  {{else}}
-                    <form action="/profile" method="post">
-                      <input style="display: none;" type="text" name="productId" value="{{this.product_id}}">
-                      <button type="submit">Purchase</button>
-                    </form>
-                  {{/if}}
-              </div>
+                <h3>{{this.name}}</h3>
+                <p class="system-font">{{this.description}}</p>
+                <div class="buy">
+                    <p>€{{this.price}}</p>
+                    {{#if this.user_id}}
+                      <audio data-audio-name="{{this.name}}" src="/audio/{{this.filename}}"></audio>
+                      <button data-play data-audio-name="{{this.name}}">Play</button>
+                    {{else}}
+                      <form action="/profile" method="post">
+                        <input style="display: none;" type="text" name="productId" value="{{this.product_id}}">
+                        <button type="submit">Purchase</button>
+                      </form>
+                    {{/if}}
+                </div>
+
               </li>
             {{/each}}
             

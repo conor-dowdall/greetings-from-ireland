@@ -1,10 +1,10 @@
-import mysql8 from "mysql8";
+import mysql from "mysql2";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { promisify } from "util";
 
 // create a database connection
-const db = mysql8.createConnection({
+const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -17,7 +17,7 @@ const buyProduct = (req, res, next) => {
   if (req.user) {
     try {
       const userId = req.user.user_id;
-      const productId = Number(req.body.productId);
+      const productId = req.body.productId;
       db.query(
         "INSERT INTO orders VALUES (NULL, ?, ?)",
         [userId, productId],
