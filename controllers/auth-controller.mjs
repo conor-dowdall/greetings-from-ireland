@@ -1,67 +1,8 @@
-import mysql from "mysql2";
+import dbPool from "./db-pool-controller.mjs";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { promisify } from "util";
 
-// create a database connection
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
-// when a user buys a product, add the purchase to the
-// database's orders table
-const buyProduct = (req, res, next) => {
-  if (req.user) {
-    try {
-      const userId = req.user.user_id;
-      const productId = req.body.productId;
-      db.query(
-        "INSERT INTO orders VALUES (NULL, ?, ?)",
-        [userId, productId],
-        (error, results) => {
-          if (error) throw new Error(error);
-          next();
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      return next();
-    }
-  } else next();
-};
-
-// get products from the products table and add them to req
-// to be displayed in the profile page
-// use orders.user_id from the orders table to flag whether the
-// product was purchased by the current user id
-const getProducts = (req, res, next) => {
-  if (req.user) {
-    try {
-      db.query(
-        "SELECT products.*, orders.user_id FROM products LEFT JOIN orders ON (orders.product_id=products.product_id AND orders.user_id=?)",
-        [req.user.user_id],
-        (error, results) => {
-          if (error) throw new Error(error);
-          if (results?.length) {
-            req.products = results;
-            return next();
-          } else {
-            console.error("empty database products query");
-            next();
-          }
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      return next();
-    }
-  } else next();
-};
-
-// overwrite the cookie set in the login process
 const logout = async (req, res, next) => {
   res.cookie("greetings_token", "logout", {
     expires: new Date(Date.now()),
@@ -70,8 +11,6 @@ const logout = async (req, res, next) => {
   res.status(200).redirect("/");
 };
 
-// check if the visitor has a valid login cookie
-// and add the relevant user object to req, if they do
 const isLoggedIn = async (req, res, next) => {
   if (req.cookies.greetings_token) {
     try {
@@ -79,7 +18,7 @@ const isLoggedIn = async (req, res, next) => {
         req.cookies.greetings_token,
         process.env.JWT_SECRET
       );
-      db.query(
+      dbPool.query(
         "SELECT * FROM users WHERE user_id = ?",
         [decoded.userId],
         (error, results) => {
@@ -97,11 +36,6 @@ const isLoggedIn = async (req, res, next) => {
   } else next();
 };
 
-// validate a user login
-// check if the database-and-provided password hashes match
-// if so, sign a cookie and add it to res
-// then redirect to profile
-// or display login page if something went wrong
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -109,7 +43,7 @@ const login = async (req, res) => {
     if (password === "" || email === "")
       return res.status(401).render("login", { message: "c'mon ye eejit" });
 
-    db.query(
+    dbPool.query(
       "SELECT * FROM users WHERE email = ?",
       [email],
       async (error, results) => {
@@ -154,7 +88,7 @@ const login = async (req, res) => {
 // salt and hash the password and add the new user to the users table
 const register = (req, res) => {
   const { name, email, password, confirmPassword } = req.body;
-  db.query(
+  dbPool.query(
     "SELECT email FROM users WHERE email = ?",
     [email],
     async (error, results) => {
@@ -179,7 +113,7 @@ const register = (req, res) => {
         });
 
       const saltyHash = await bcrypt.hash(password, 8);
-      db.query(
+      dbPool.query(
         "INSERT INTO users SET ?",
         { name, email, password: saltyHash },
         (error, results) => {
@@ -195,49 +129,4 @@ const register = (req, res) => {
   );
 };
 
-// subscribe to the website email service
-// insert into the subscribers table, if the email is
-// not already in there
-const subscribeEmail = (req, res) => {
-  const email = req.body.email;
-  db.query(
-    "SELECT email FROM subscribers WHERE email = ?",
-    [email],
-    (error, results) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).render("subscribe");
-      }
-
-      if (results?.length)
-        return res.render("subscribe", {
-          message: "That email is already subscribed!",
-        });
-      else {
-        db.query(
-          "INSERT INTO subscribers VALUES (NULL, ?)",
-          [email],
-          (error, results) => {
-            if (error) {
-              console.error(error);
-              return res.status(500).render("subscribe");
-            } else
-              return res.render("subscribe", {
-                email,
-              });
-          }
-        );
-      }
-    }
-  );
-};
-
-export {
-  buyProduct,
-  getProducts,
-  logout,
-  isLoggedIn,
-  login,
-  register,
-  subscribeEmail,
-};
+export { logout, isLoggedIn, login, register };
