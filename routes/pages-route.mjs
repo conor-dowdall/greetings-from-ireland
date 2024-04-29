@@ -8,7 +8,7 @@ import { isLoggedIn } from "../controllers/auth-controller.mjs";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", isLoggedIn, (req, res) => {
   res.render("home", { user: req.user });
 });
 
