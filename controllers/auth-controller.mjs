@@ -1,132 +1,85 @@
-import dbPool from "./db-pool-controller.mjs";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { promisify } from "util";
+import { getUserById, getUserByEmail, addUser } from "./db-pool-controller.mjs";
 
-const logout = async (req, res, next) => {
-  res.cookie("greetings_token", "logout", {
+async function decodeCookie(cookieToken) {
+  const decodedCookie = await promisify(jwt.verify)(
+    cookieToken,
+    process.env.JWT_SECRET
+  );
+  return decodedCookie;
+}
+
+async function isLoggedIn(req, res, next) {
+  const cookieToken = req.cookies?.greetings_login_token;
+  if (cookieToken) {
+    const decodedCookie = await decodeCookie(cookieToken);
+    const userId = decodedCookie.userId;
+    const user = await getUserById(userId);
+    if (user) req.user = user;
+  }
+  next();
+}
+
+function logout(req, res, next) {
+  res.cookie("greetings_login_token", "logout", {
     expires: new Date(Date.now()),
     httpOnly: true,
   });
   res.status(200).redirect("/");
-};
+}
 
-const isLoggedIn = async (req, res, next) => {
-  if (req.cookies.greetings_token) {
-    try {
-      const decoded = await promisify(jwt.verify)(
-        req.cookies.greetings_token,
-        process.env.JWT_SECRET
-      );
-      dbPool.query(
-        "SELECT * FROM users WHERE user_id = ?",
-        [decoded.userId],
-        (error, results) => {
-          if (error) throw new Error(error);
-          if (results?.length) {
-            req.user = results[0];
-            return next();
-          } else return next();
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      return next();
-    }
-  } else next();
-};
+async function login(req, res) {
+  const { email, password } = req.body;
 
-const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  if (password === "" || email === "")
+    return res.status(401).render("login", { message: "c'mon ye eejit" });
 
-    if (password === "" || email === "")
-      return res.status(401).render("login", { message: "c'mon ye eejit" });
+  const user = await getUserByEmail(email);
 
-    dbPool.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email],
-      async (error, results) => {
-        if (error) {
-          console.error(error);
-          return res.status(500).render("login", {
-            message: "oh Jaysus, something went wrong - could you try again?",
-          });
-        }
+  if (user && (await bcrypt.compare(password, user.password))) {
+    const userId = user.user_id;
 
-        if (
-          results?.length &&
-          (await bcrypt.compare(password, results[0].password))
-        ) {
-          const userId = results[0].user_id;
-          const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN,
-          });
-          const cookieOptions = {
-            expires: new Date(
-              Date.now() + Number(process.env.JWT_COOKIE_EXPIRES)
-            ),
-            httpOnly: true,
-          };
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
 
-          res.cookie("greetings_token", token, cookieOptions);
-          res.redirect("/profile");
-        } else
-          return res
-            .status(401)
-            .render("login", { message: "somethin's wrong there now" });
-      }
-    );
-  } catch (error) {
-    console.error(error);
+    const cookieOptions = {
+      expires: new Date(Date.now() + Number(process.env.JWT_COOKIE_EXPIRES)),
+      httpOnly: true,
+    };
+
+    res.cookie("greetings_login_token", token, cookieOptions);
+
+    return res.redirect("/profile");
   }
-};
 
-// register a new user
-// make sure the email is not already registered in the database
-// make sure the two passwords provided match
-// salt and hash the password and add the new user to the users table
-const register = (req, res) => {
+  res.status(401).render("login", { message: "somethin's wrong there now" });
+}
+
+async function register(req, res) {
   const { name, email, password, confirmPassword } = req.body;
-  dbPool.query(
-    "SELECT email FROM users WHERE email = ?",
-    [email],
-    async (error, results) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).render("register", {
-          message: "oh Jaysus, something went wrong - could you try again?",
-        });
-      }
 
-      if (results?.length)
-        return res.status(401).render("register", {
-          name,
-          message:
-            "oh Jaysus, that email is already in use - would you have another one?",
-        });
-      else if (password !== confirmPassword)
-        return res.status(401).render("register", {
-          name,
-          email,
-          message: "ye eejit - those passwords don't match",
-        });
+  const user = await getUserByEmail(email);
 
-      const saltyHash = await bcrypt.hash(password, 8);
-      dbPool.query(
-        "INSERT INTO users SET ?",
-        { name, email, password: saltyHash },
-        (error, results) => {
-          if (error) {
-            console.error(error);
-            return res.status(500).render("register", {
-              message: "oh Jaysus, something went wrong - could you try again?",
-            });
-          } else return res.status(302).render("login", { name, email });
-        }
-      );
-    }
-  );
-};
+  if (user)
+    return res.status(401).render("register", {
+      name,
+      message:
+        "oh Jaysus, that email is already in use - would you have another one?",
+    });
 
-export { logout, isLoggedIn, login, register };
+  if (password !== confirmPassword)
+    return res.status(401).render("register", {
+      name,
+      email,
+      message: "ye eejit - those passwords don't match",
+    });
+
+  const saltyHash = await bcrypt.hash(password, 10);
+  await addUser(name, email, saltyHash);
+  res.status(201).render("login", { name, email });
+}
+
+export { isLoggedIn, logout, login, register };

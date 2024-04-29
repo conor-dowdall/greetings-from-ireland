@@ -3,8 +3,8 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
-import pagesRouter from "./routes/pages.mjs";
-import authRouter from "./routes/auth.mjs";
+import authRouter from "./routes/auth-route.mjs";
+import pagesRouter from "./routes/pages-route.mjs";
 
 const app = express();
 
@@ -20,7 +20,12 @@ app.use(cookieParser());
 app.use("/", pagesRouter);
 app.use("/auth", authRouter);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("oh Jaysus, something went wrong!");
+});
+
 app.listen(process.env.SERVER_PORT, () => {
-  console.log(`Server started on port:\t${process.env.SERVER_PORT}`);
-  console.log(`http://localhost:${process.env.SERVER_PORT}`);
+  console.log(`Server started on port ${process.env.SERVER_PORT}`);
+  console.log(`http://127.0.0.1:${process.env.SERVER_PORT}`);
 });
