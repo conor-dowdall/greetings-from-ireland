@@ -14,7 +14,7 @@ async function getProducts(req, res, next) {
   next();
 }
 
-async function buyProduct(req, res, next) {
+async function purchaseProduct(req, res, next) {
   if (req.user) {
     const userId = req.user.user_id;
     const productId = req.body.productId;
@@ -36,4 +36,4 @@ async function subscribeEmail(req, res) {
   res.render("subscribe", { email });
 }
 
-export { getProducts, buyProduct, subscribeEmail };
+export { getProducts, purchaseProduct, subscribeEmail };

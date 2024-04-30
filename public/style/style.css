@@ -233,10 +233,12 @@ ul.greetings-list {
   list-style-image: url("/images/chat.svg");
 
   & > li {
-    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid black;
   }
 
-  & .buy {
+  & .product-details {
     display: flex;
     flex-direction: row;
     align-items: center;

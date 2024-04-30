@@ -11,7 +11,7 @@ async function decodeCookie(cookieToken) {
   return decodedCookie;
 }
 
-async function isLoggedIn(req, res, next) {
+async function getLoggedInUser(req, res, next) {
   const cookieToken = req.cookies?.greetings_login_token;
   if (cookieToken) {
     const decodedCookie = await decodeCookie(cookieToken);
@@ -82,4 +82,4 @@ async function register(req, res) {
   res.status(201).render("login", { name, email });
 }
 
-export { isLoggedIn, logout, login, register };
+export { getLoggedInUser, logout, login, register };

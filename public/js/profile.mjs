@@ -56,10 +56,8 @@ function filterGreetings(filter) {
 
     // check if that category matches with the filter
     // and hide or unhide that greeting
-    if (filter === "all" || filter === category) {
+    if (filter === "all" || filter === category)
       greeting.removeAttribute("hidden");
-    } else {
-      greeting.setAttribute("hidden", "");
-    }
+    else greeting.setAttribute("hidden", "");
   });
 }

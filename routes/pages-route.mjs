@@ -1,37 +1,37 @@
 import express from "express";
 import {
   getProducts,
-  buyProduct,
+  purchaseProduct,
   subscribeEmail,
 } from "../controllers/pages-controller.mjs";
-import { isLoggedIn } from "../controllers/auth-controller.mjs";
+import { getLoggedInUser } from "../controllers/auth-controller.mjs";
 
 const router = express.Router();
 
-router.get("/", isLoggedIn, (req, res) => {
+router.get("/", getLoggedInUser, (req, res) => {
   res.render("home", { user: req.user });
 });
 
 router.post("/subscribe", subscribeEmail);
 
-router.get("/register", isLoggedIn, (req, res) => {
+router.get("/register", getLoggedInUser, (req, res) => {
   if (req.user) res.redirect("/profile");
   else res.render("register");
 });
 
-router.get("/login", isLoggedIn, (req, res) => {
+router.get("/login", getLoggedInUser, (req, res) => {
   if (req.user) res.redirect("/profile");
   else res.render("login");
 });
 
 router
   .route("/profile")
-  .get(isLoggedIn, getProducts, (req, res) => {
+  .get(getLoggedInUser, getProducts, (req, res) => {
     if (req.user)
       res.render("profile", { user: req.user, products: req.products });
     else res.redirect("/login");
   })
-  .post(isLoggedIn, buyProduct, (req, res) => {
+  .post(getLoggedInUser, purchaseProduct, (req, res) => {
     if (req.user) res.redirect("/profile");
     else res.redirect("/login");
   });
