@@ -22,7 +22,7 @@ app.use("/auth", authRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("oh Jaysus, something went wrong!");
+  res.status(500).render("server-error");
 });
 
 app.listen(process.env.SERVER_PORT, () => {
