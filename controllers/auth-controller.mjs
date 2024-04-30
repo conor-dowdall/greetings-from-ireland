@@ -1,7 +1,11 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { promisify } from "util";
-import { getUserById, getUserByEmail, addUser } from "./db-pool-controller.mjs";
+import {
+  mysqlGetUserById,
+  mysqlGetUserByEmail,
+  mysqlAddUser,
+} from "./mysql-pool-controller.mjs";
 
 async function decodeCookie(cookieToken) {
   const decodedCookie = await promisify(jwt.verify)(
@@ -16,7 +20,7 @@ async function getLoggedInUser(req, res, next) {
   if (cookieToken) {
     const decodedCookie = await decodeCookie(cookieToken);
     const userId = decodedCookie.userId;
-    const user = await getUserById(userId);
+    const user = await mysqlGetUserById(userId);
     if (user) req.user = user;
   }
   next();
@@ -36,7 +40,7 @@ async function login(req, res) {
   if (password === "" || email === "")
     return res.status(401).render("login", { message: "c'mon ye eejit" });
 
-  const user = await getUserByEmail(email);
+  const user = await mysqlGetUserByEmail(email);
 
   if (user && (await bcrypt.compare(password, user.password))) {
     const userId = user.user_id;
@@ -61,7 +65,7 @@ async function login(req, res) {
 async function register(req, res) {
   const { name, email, password, confirmPassword } = req.body;
 
-  const user = await getUserByEmail(email);
+  const user = await mysqlGetUserByEmail(email);
 
   if (user)
     return res.status(401).render("register", {
@@ -78,7 +82,7 @@ async function register(req, res) {
     });
 
   const saltyHash = await bcrypt.hash(password, 10);
-  await addUser(name, email, saltyHash);
+  await mysqlAddUser(name, email, saltyHash);
   res.status(201).render("login", { name, email });
 }
 

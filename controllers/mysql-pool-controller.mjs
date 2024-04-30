@@ -9,7 +9,7 @@ const mysqlPool = mysql
   })
   .promise();
 
-async function getSubscriberByEmail(email) {
+async function mysqlGetSubscriberByEmail(email) {
   const results = await mysqlPool.query(
     `
       SELECT * FROM subscribers 
@@ -21,7 +21,7 @@ async function getSubscriberByEmail(email) {
   return results[0][0];
 }
 
-async function addSubscribeEmail(email) {
+async function mysqlAddSubscribeEmail(email) {
   const result = mysqlPool.query(
     `
     INSERT INTO subscribers (email)
@@ -33,7 +33,7 @@ async function addSubscribeEmail(email) {
   return result;
 }
 
-async function addUser(name, email, password) {
+async function mysqlAddUser(name, email, password) {
   const result = await mysqlPool.query(
     `
     INSERT INTO users (name, email, password)
@@ -45,7 +45,7 @@ async function addUser(name, email, password) {
   return result;
 }
 
-async function getUserById(userId) {
+async function mysqlGetUserById(userId) {
   const results = await mysqlPool.query(
     `
     SELECT * FROM users
@@ -57,7 +57,7 @@ async function getUserById(userId) {
   return results[0][0];
 }
 
-async function getUserByEmail(email) {
+async function mysqlGetUserByEmail(email) {
   const results = await mysqlPool.query(
     `
     SELECT * FROM users 
@@ -69,7 +69,7 @@ async function getUserByEmail(email) {
   return results[0][0];
 }
 
-async function getUserProducts(userId) {
+async function mysqlGetUserProducts(userId) {
   const results = await mysqlPool.query(
     `
     SELECT products.*, orders.user_id 
@@ -84,7 +84,7 @@ async function getUserProducts(userId) {
   return results[0];
 }
 
-async function addUserProduct(userId, productId) {
+async function mysqlAddUserProduct(userId, productId) {
   const result = await mysqlPool.query(
     `
     INSERT INTO orders (user_id, product_id)
@@ -97,11 +97,11 @@ async function addUserProduct(userId, productId) {
 }
 
 export {
-  getSubscriberByEmail,
-  addSubscribeEmail,
-  addUser,
-  getUserById,
-  getUserByEmail,
-  getUserProducts,
-  addUserProduct,
+  mysqlGetSubscriberByEmail,
+  mysqlAddSubscribeEmail,
+  mysqlAddUser,
+  mysqlGetUserById,
+  mysqlGetUserByEmail,
+  mysqlGetUserProducts,
+  mysqlAddUserProduct,
 };

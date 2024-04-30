@@ -1,14 +1,14 @@
 import {
-  addUserProduct,
-  getUserProducts,
-  getSubscriberByEmail,
-  addSubscribeEmail,
-} from "./db-pool-controller.mjs";
+  mysqlAddUserProduct,
+  mysqlGetUserProducts,
+  mysqlGetSubscriberByEmail,
+  mysqlAddSubscribeEmail,
+} from "./mysql-pool-controller.mjs";
 
 async function getProducts(req, res, next) {
   if (req.user) {
     const userId = req.user.user_id;
-    const products = await getUserProducts(userId);
+    const products = await mysqlGetUserProducts(userId);
     req.products = products;
   }
   next();
@@ -18,21 +18,21 @@ async function purchaseProduct(req, res, next) {
   if (req.user) {
     const userId = req.user.user_id;
     const productId = req.body.productId;
-    await addUserProduct(userId, productId);
+    await mysqlAddUserProduct(userId, productId);
   }
   next();
 }
 
 async function subscribeEmail(req, res) {
   const email = req.body.email;
-  const results = await getSubscriberByEmail(email);
+  const results = await mysqlGetSubscriberByEmail(email);
 
   if (results)
     return res.render("subscribe", {
       message: "That email is already subscribed!",
     });
 
-  await addSubscribeEmail(email);
+  await mysqlAddSubscribeEmail(email);
   res.render("subscribe", { email });
 }
 
