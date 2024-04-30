@@ -18,7 +18,12 @@ async function purchaseProduct(req, res, next) {
   if (req.user) {
     const userId = req.user.user_id;
     const productId = req.body.productId;
-    await mysqlAddUserProduct(userId, productId);
+
+    const userProducts = await mysqlGetUserProducts(userId);
+    const userProduct = userProducts.find((product) => {
+      return product.product_id == productId;
+    });
+    if (!userProduct.user_id) await mysqlAddUserProduct(userId, productId);
   }
   next();
 }
