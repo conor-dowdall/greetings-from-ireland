@@ -87,3 +87,7 @@ One departure from the learning material, that this project uses is the use of E
 Form validation is performed by the browser on the client side and the form cannot be submitted if all the required fields (all of them) are not filled in. The browser attaches an appropriate message to the relevant input upon an invalid submission.
 
 This is achieved using the “required” boolean attribute in the form’s inputs. The browser also does validation on the text in the email field and the form cannot be submitted if this doesn’t match the expected form of an email address. This is done for the login and register forms, as well as the email-subscribe form on the home page.
+
+> I am attempting to fill a silent moment with non-relevant conversation.  
+> &nbsp;&nbsp;&nbsp;&nbsp;- Lt. Cmdr. Data  
+> &nbsp;&nbsp;&nbsp;&nbsp;Star Trek: The Next Generation
